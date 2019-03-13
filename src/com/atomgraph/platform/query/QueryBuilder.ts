@@ -1,4 +1,4 @@
-import { Parser, Query, BaseQuery, Pattern, FilterPattern, OperationExpression, Term } from 'sparqljs';
+import { Parser, Query, BaseQuery, Pattern, Expression, FilterPattern, OperationExpression, Term } from 'sparqljs';
 
 export class QueryBuilder
 {
@@ -53,9 +53,32 @@ export class QueryBuilder
         return this;
     }
 
+    public filterIn(varName: string, list: Term[]): QueryBuilder
+    {
+        let expression: OperationExpression = {
+            "type": "operation",
+            "operator": "in",
+            "args": [<Term>("?" + varName), list]
+        };
+
+        let filter: FilterPattern = {
+            "type": "filter",
+            "expression": expression
+        };
+
+        this.filter(filter);
+
+        return this;
+    }
+
     public build(): Object
     {
         return this.query;
+    }
+
+    public static escapeLiteral(value: string): Term
+    {
+        return <Term>("\"" + value + "\"");
     }
 
 }
