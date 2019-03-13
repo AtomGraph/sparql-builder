@@ -1,0 +1,14 @@
+{
+  "scripts": {
+    "test": "mocha -r ts-node/register test/**/*.ts"
+  },
+  "dependencies": {
+    "@types/sparqljs": "^2.1.0",
+    "sparqljs": "^1.5.2"
+  },
+  "devDependencies": {
+    "ts-node": "^8.0.3",
+    "mocha": "4.1.x",
+    "chai": "4.1.x"
+  }
+}
