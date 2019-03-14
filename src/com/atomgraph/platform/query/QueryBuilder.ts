@@ -1,4 +1,4 @@
-import { Parser, Query, BaseQuery, Pattern, Expression, FilterPattern, OperationExpression, Term } from 'sparqljs';
+import { Parser, Query, BaseQuery, Pattern, Expression, FilterPattern, BgpPattern, OperationExpression, Triple, Term } from 'sparqljs';
 
 export class QueryBuilder
 {
@@ -26,11 +26,40 @@ export class QueryBuilder
         return this;
     }
 
+    public bgp(bgp: BgpPattern): QueryBuilder
+    {
+        return this.where(bgp);
+    }
+
+    public bgpTriples(triples: Triple[]): QueryBuilder
+    {
+        let bgp: BgpPattern = {
+          "type": "bgp",
+          "triples": triples
+        };
+
+        // if the last pattern is BGP, append triples to it instead of adding new BGP
+        if (this.getQuery().where)
+        {
+            let lastPattern = this.getQuery().where![this.getQuery().where!.length - 1];
+            if (lastPattern.type === "bgp")
+            {
+                lastPattern.triples = lastPattern.triples.concat(triples);
+                return this;
+            }
+        }
+
+        return this.bgp(bgp);
+    }
+
+    public bgpTriple(triple: Triple): QueryBuilder
+    {
+        return this.bgpTriples([triple]);
+    }
+
     public filter(filter: FilterPattern): QueryBuilder
     {
-        this.where(filter);
-
-        return this;
+        return this.where(filter);
     }
 
     public filterRegex(varName: string, pattern: string, caseInsensitive?: boolean): QueryBuilder
@@ -48,9 +77,7 @@ export class QueryBuilder
             "expression": expression
         };
 
-        this.filter(filter);
-
-        return this;
+        return this.filter(filter);
     }
 
     public filterIn(varName: string, list: Term[]): QueryBuilder
@@ -66,9 +93,7 @@ export class QueryBuilder
             "expression": expression
         };
 
-        this.filter(filter);
-
-        return this;
+        return this.filter(filter);
     }
 
     protected getQuery(): BaseQuery
