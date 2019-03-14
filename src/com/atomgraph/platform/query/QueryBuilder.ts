@@ -13,15 +13,15 @@ export class QueryBuilder
     public static fromString(queryString: string, prefixes?: { [prefix: string]: string; } | undefined, baseIRI?: string | undefined): QueryBuilder
     {
         let query = new Parser(prefixes, baseIRI).parse(queryString);
-        if (!<Query>query) throw new Error("SPARQL updates are not supported");
+        if (!<Query>query) throw new Error("Only SPARQL queries are supported, not updates");
 
         return new QueryBuilder(<Query>query);
     }
 
     public where(pattern: Pattern): QueryBuilder
     {
-        if (!this.query.where) this.query.where = [];
-        this.query.where.push(pattern);
+        if (!this.getQuery().where) this.getQuery().where = [];
+        this.getQuery().where!.push(pattern);
 
         return this;
     }
@@ -71,12 +71,22 @@ export class QueryBuilder
         return this;
     }
 
-    public build(): Object
+    protected getQuery(): BaseQuery
     {
         return this.query;
     }
 
-    public static escapeLiteral(value: string): Term
+    public build(): Object
+    {
+        return this.getQuery();
+    }
+
+    public static variable(varName: string): Term
+    {
+        return <Term>("?" + varName);
+    }
+
+    public static literal(value: string): Term
     {
         return <Term>("\"" + value + "\"");
     }

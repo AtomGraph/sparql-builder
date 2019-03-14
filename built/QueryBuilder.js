@@ -1,84 +1,62 @@
+import { Parser } from 'sparqljs';
 export class QueryBuilder {
     constructor(query) {
-        this.test = {
-            "type": "query",
-            "prefixes": {
-                "dbpedia-owl": "http://dbpedia.org/ontology/"
-            },
-            "queryType": "SELECT",
-            "variables": ["?p", "?c"],
-            "where": [
-                {
-                    "type": "bgp",
-                    "triples": [
-                        {
-                            "subject": "?p",
-                            "predicate": "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
-                            "object": "http://dbpedia.org/ontology/Artist"
-                        },
-                        {
-                            "subject": "?p",
-                            "predicate": "http://dbpedia.org/ontology/birthPlace",
-                            "object": "?c"
-                        },
-                        {
-                            "subject": "?c",
-                            "predicate": "http://xmlns.com/foaf/0.1/name",
-                            "object": "\"York\"@en"
-                        }
-                    ]
-                }
-            ]
-        };
         this.query = query;
     }
-    static fromString() {
+    static fromString(queryString, prefixes, baseIRI) {
+        let query = new Parser(prefixes, baseIRI).parse(queryString);
+        if (!query)
+            throw new Error("Only SPARQL queries are supported, not updates");
+        return new QueryBuilder(query);
     }
-    where(element) {
+    where(pattern) {
+        if (!this.getQuery().where)
+            this.getQuery().where = [];
+        this.getQuery().where.push(pattern);
         return this;
     }
-    filter(varName, filter) {
-        this.query["where"].push(filter);
+    filter(filter) {
+        this.where(filter);
         return this;
     }
     filterRegex(varName, pattern, caseInsensitive) {
-        var expression = {
+        let expression = {
             "type": "operation",
             "operator": "regex",
-            "args": [
-                {
-                    "termType": "Variable",
-                    "value": varName
-                },
-                {
-                    "termType": "Literal",
-                    "value": pattern,
-                    "language": "",
-                    "datatype": {
-                        "termType": "NamedNode",
-                        "value": "http://www.w3.org/2001/XMLSchema#string"
-                    }
-                }
-            ]
+            "args": [("?" + varName), ("\"" + pattern + "\"")]
         };
-        if (caseInsensitive === true)
-            expression.args.push({
-                "termType": "Literal",
-                "value": "\"i\"",
-                "language": "",
-                "datatype": {
-                    "termType": "NamedNode",
-                    "value": "http://www.w3.org/2001/XMLSchema#string"
-                }
-            });
-        var filter = {
+        if (caseInsensitive)
+            expression.args.push("\"i\"");
+        let filter = {
             "type": "filter",
             "expression": expression
         };
-        this.filter(varName, filter);
+        this.filter(filter);
         return this;
     }
-    build() {
+    filterIn(varName, list) {
+        let expression = {
+            "type": "operation",
+            "operator": "in",
+            "args": [("?" + varName), list]
+        };
+        let filter = {
+            "type": "filter",
+            "expression": expression
+        };
+        this.filter(filter);
+        return this;
+    }
+    getQuery() {
         return this.query;
+    }
+    build() {
+        return this.getQuery();
+    }
+    static variable(varName) {
+        return ("?" + varName);
+    }
+    static literal(value) {
+        return ("\"" + value + "\"");
     }
 }

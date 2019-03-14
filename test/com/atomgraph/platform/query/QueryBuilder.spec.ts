@@ -16,7 +16,7 @@ describe('should build an equivalent query', () => {
   it('filterIn()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o FILTER (?s IN (<http://a>, \"b\", \"c\")) }";
-    let actual = QueryBuilder.fromString(query).filterIn("s", [<Term>"http://a", QueryBuilder.escapeLiteral("b"), QueryBuilder.escapeLiteral("c")]).build();
+    let actual = QueryBuilder.fromString(query).filterIn("s", [<Term>"http://a", QueryBuilder.literal("b"), QueryBuilder.literal("c")]).build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
