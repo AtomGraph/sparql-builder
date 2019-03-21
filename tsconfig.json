@@ -4,9 +4,7 @@
         "outDir": "./built",
         "sourceMap": true,
         "allowJs": true,
-        "module": "es6",
-        "target": "es6",
-        "strict": true
+        "target": "es6"
     },
     "include": [
         "./src/**/*"

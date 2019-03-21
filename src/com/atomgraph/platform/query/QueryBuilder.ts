@@ -1,13 +1,15 @@
-import { Parser, Query, BaseQuery, Pattern, Expression, FilterPattern, BgpPattern, OperationExpression, Triple, Term } from 'sparqljs';
+import { Parser, Query, BaseQuery, Pattern, Expression, FilterPattern, BgpPattern, OperationExpression, Triple, Term, Generator, SparqlGenerator } from 'sparqljs';
 
 export class QueryBuilder
 {
 
-    private query: BaseQuery;
+    private query: Query;
+    private generator: SparqlGenerator;
 
     constructor(query: Query)
     {
         this.query = query;
+        this.generator = new Generator();
     }
 
     public static fromString(queryString: string, prefixes?: { [prefix: string]: string; } | undefined, baseIRI?: string | undefined): QueryBuilder
@@ -96,14 +98,24 @@ export class QueryBuilder
         return this.filter(filter);
     }
 
-    protected getQuery(): BaseQuery
+    protected getQuery(): Query
     {
         return this.query;
+    }
+
+    protected getGenerator(): SparqlGenerator
+    {
+        return this.generator;
     }
 
     public build(): Object
     {
         return this.getQuery();
+    }
+
+    public toString(): string
+    {
+        return this.getGenerator().stringify(this.getQuery());
     }
 
     public static variable(varName: string): Term
