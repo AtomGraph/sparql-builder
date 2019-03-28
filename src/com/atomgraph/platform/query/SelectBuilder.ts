@@ -19,8 +19,8 @@ export class SelectBuilder extends QueryBuilder
 
     public orderBy(ordering: Ordering): SelectBuilder
     {
-        if (!this.getSelectQuery().order) this.getSelectQuery().order = [];
-        this.getSelectQuery().order!.push(ordering);
+        if (!this.getQuery().order) this.getQuery().order = [];
+        this.getQuery().order!.push(ordering);
 
         return this;
     }
@@ -28,7 +28,7 @@ export class SelectBuilder extends QueryBuilder
     public orderByVar(varName: string, desc?: boolean): SelectBuilder
     {
         let ordering: Ordering = {
-          "expression": SelectBuilder.variable(varName),
+          "expression": SelectBuilder.var(varName),
         };
         if (desc !== undefined) ordering.descending = desc;
 
@@ -37,21 +37,26 @@ export class SelectBuilder extends QueryBuilder
 
     public offset(offset: number): SelectBuilder
     {
-        this.getSelectQuery().offset = offset;
+        this.getQuery().offset = offset;
 
         return this;
     }
 
     public limit(limit: number): SelectBuilder
     {
-        this.getSelectQuery().limit = limit;
+        this.getQuery().limit = limit;
 
         return this;
     }
 
-    private getSelectQuery(): SelectQuery
+    protected getQuery(): SelectQuery
     {
-        return <SelectQuery>this.getQuery();
+        return <SelectQuery>super.getQuery();
+    }
+
+    public build(): SelectQuery
+    {
+        return <SelectQuery>super.build();
     }
 
 }

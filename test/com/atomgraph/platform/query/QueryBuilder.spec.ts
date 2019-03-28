@@ -8,7 +8,7 @@ describe('should build an equivalent query', () => {
   it('bgp()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o . ?s ?x \"y\" }";
-    let actual = QueryBuilder.fromString(query).bgpTriple({ subject: QueryBuilder.variable("s"), predicate: QueryBuilder.variable("x"), object: QueryBuilder.literal("y") }).build();
+    let actual = QueryBuilder.fromString(query).bgpTriple({ subject: QueryBuilder.var("s"), predicate: QueryBuilder.var("x"), object: QueryBuilder.literal("y") }).build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });

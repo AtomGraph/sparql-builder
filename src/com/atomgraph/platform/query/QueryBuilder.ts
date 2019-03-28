@@ -3,13 +3,14 @@ import { Parser, Query, BaseQuery, Pattern, Expression, FilterPattern, BgpPatter
 export class QueryBuilder
 {
 
-    private query: Query;
-    private generator: SparqlGenerator;
+    private readonly query: Query;
+    private readonly generator: SparqlGenerator;
 
     constructor(query: Query)
     {
         this.query = query;
         this.generator = new Generator();
+        if (!this.query.prefixes) this.query.prefixes = {};
     }
 
     public static fromString(queryString: string, prefixes?: { [prefix: string]: string; } | undefined, baseIRI?: string | undefined): QueryBuilder
@@ -87,7 +88,7 @@ export class QueryBuilder
         let expression: OperationExpression = {
             "type": "operation",
             "operator": "in",
-            "args": [<Term>("?" + varName), list]
+            "args": [ QueryBuilder.var(varName), list]
         };
 
         let filter: FilterPattern = {
@@ -108,7 +109,7 @@ export class QueryBuilder
         return this.generator;
     }
 
-    public build(): Object
+    public build(): Query
     {
         return this.getQuery();
     }
@@ -118,7 +119,7 @@ export class QueryBuilder
         return this.getGenerator().stringify(this.getQuery());
     }
 
-    public static variable(varName: string): Term
+    public static var(varName: string): Term
     {
         return <Term>("?" + varName);
     }
@@ -126,6 +127,11 @@ export class QueryBuilder
     public static literal(value: string): Term
     {
         return <Term>("\"" + value + "\"");
+    }
+
+    public static uri(value: string): Term
+    {
+        return <Term>value;
     }
 
 }
