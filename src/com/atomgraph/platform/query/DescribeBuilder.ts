@@ -17,6 +17,18 @@ export class DescribeBuilder extends QueryBuilder
         return new DescribeBuilder(<DescribeQuery>query);
     }
 
+    public static projectAll(): DescribeBuilder
+    {
+        return new DescribeBuilder({
+          "queryType": "DESCRIBE",
+          "variables": [
+            "*"
+          ],
+          "type": "query",
+          "prefixes": {}
+        });
+    }
+
     public projection(variables: Variable[]): DescribeBuilder
     {
         this.getQuery().variables = variables;

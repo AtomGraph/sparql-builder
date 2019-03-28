@@ -6,6 +6,13 @@ import 'mocha';
 
 describe('should build an equivalent query', () => {
 
+  it('projectAll()', () => {
+    let expected = "DESCRIBE *";
+    let actual = DescribeBuilder.projectAll().build();
+
+    expect(actual).to.deep.equal(DescribeBuilder.fromString(expected).build());
+  });
+
   it('project()', () => {
     let query = "DESCRIBE * { ?x ?y ?z }";
     let expected = "DESCRIBE ?x <http://a> { ?x ?y ?z }";
