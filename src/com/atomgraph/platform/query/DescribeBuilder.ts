@@ -17,7 +17,7 @@ export class DescribeBuilder extends QueryBuilder
         return new DescribeBuilder(<DescribeQuery>query);
     }
 
-    public static projectAll(): DescribeBuilder
+    public static new(): DescribeBuilder
     {
         return new DescribeBuilder({
           "queryType": "DESCRIBE",
@@ -27,6 +27,13 @@ export class DescribeBuilder extends QueryBuilder
           "type": "query",
           "prefixes": {}
         });
+    }
+
+    public projectAll(): DescribeBuilder
+    {
+        this.getQuery().variables = [ "*" ];
+
+        return this;
     }
 
     public projection(variables: Variable[]): DescribeBuilder
@@ -41,6 +48,11 @@ export class DescribeBuilder extends QueryBuilder
         this.getQuery().variables.push(<Term & "*">term);
 
         return this;
+    }
+
+    public isProjected(term: Term): boolean
+    {
+        return this.getQuery().variables.includes(<Term & "*">term);
     }
 
     protected getQuery(): DescribeQuery

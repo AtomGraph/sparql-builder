@@ -3,7 +3,7 @@ import { Parser, Term } from 'sparqljs';
 import { expect } from 'chai';
 import 'mocha';
 
-describe('should build an equivalent query', () => {
+describe('QueryBuilder', () => {
 
   it('bgp()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";

@@ -3,12 +3,12 @@ import { Parser, Term } from 'sparqljs';
 import { expect } from 'chai';
 import 'mocha';
 
-describe('should build an equivalent query', () => {
+describe('SelectBuilder', () => {
 
-  it('orderByVar()', () => {
+  it('orderByExpression()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o } ORDER BY DESC(?s) ?p";
-    let actual = SelectBuilder.fromString(query).orderByVar("s", true).orderByVar("p").build();
+    let actual = SelectBuilder.fromString(query).orderByExpression(SelectBuilder.var("s"), true).orderByExpression(SelectBuilder.var("p")).build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
@@ -27,6 +27,18 @@ describe('should build an equivalent query', () => {
     let actual = SelectBuilder.fromString(query).offset(66).build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
+  });
+
+  it('isProjected()', () => {
+    let query = "SELECT ?s { ?s ?p ?o }";
+
+    expect(SelectBuilder.fromString(query).isProjected(SelectBuilder.var("s"))).to.equal(true);
+  });
+
+  it('!isProjected()', () => {
+    let query = "SELECT ?s { ?s ?p ?o }";
+
+    expect(SelectBuilder.fromString(query).isProjected(SelectBuilder.var("x"))).to.equal(false);
   });
 
 });

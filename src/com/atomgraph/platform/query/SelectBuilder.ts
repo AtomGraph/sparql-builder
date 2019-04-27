@@ -1,4 +1,4 @@
-import { Parser, SelectQuery, Ordering } from 'sparqljs';
+import { Parser, SelectQuery, Ordering, Term, Variable, Expression } from 'sparqljs';
 import { QueryBuilder } from './QueryBuilder';
 
 export class SelectBuilder extends QueryBuilder
@@ -17,6 +17,32 @@ export class SelectBuilder extends QueryBuilder
         return new SelectBuilder(<SelectQuery>query);
     }
 
+    public projectAll(): SelectBuilder
+    {
+        this.getQuery().variables = [ "*" ];
+
+        return this;
+    }
+
+    public projection(variables: Variable[]): SelectBuilder
+    {
+        this.getQuery().variables = variables;
+
+        return this;
+    }
+
+    public project(term: Term): SelectBuilder
+    {
+        this.getQuery().variables.push(<Term & "*">term);
+
+        return this;
+    }
+
+    public isProjected(term: Term): boolean
+    {
+        return this.getQuery().variables.includes(<Term & "*">term);
+    }
+
     public orderBy(ordering: Ordering): SelectBuilder
     {
         if (!this.getQuery().order) this.getQuery().order = [];
@@ -25,10 +51,10 @@ export class SelectBuilder extends QueryBuilder
         return this;
     }
 
-    public orderByVar(varName: string, desc?: boolean): SelectBuilder
+    public orderByExpression(expr: Expression, desc?: boolean): SelectBuilder
     {
         let ordering: Ordering = {
-          "expression": SelectBuilder.var(varName),
+          "expression": expr,
         };
         if (desc !== undefined) ordering.descending = desc;
 

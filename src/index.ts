@@ -4,3 +4,4 @@
 
 export { QueryBuilder } from './com/atomgraph/platform/query/QueryBuilder';
 export { SelectBuilder } from './com/atomgraph/platform/query/SelectBuilder';
+export { DescribeBuilder } from './com/atomgraph/platform/query/DescribeBuilder';
