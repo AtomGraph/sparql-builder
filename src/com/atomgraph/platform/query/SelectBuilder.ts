@@ -56,7 +56,7 @@ export class SelectBuilder extends QueryBuilder
         let ordering: Ordering = {
           "expression": expr,
         };
-        if (desc !== undefined) ordering.descending = desc;
+        if (desc !== undefined && desc == true) ordering.descending = desc;
 
         return this.orderBy(ordering);
     }
