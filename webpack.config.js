@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  entry: './src/index.ts',
+  entry: './src/com/atomgraph/platform/query/SPARQLBuilder.ts',
   mode: 'development',
   devtool: 'inline-source-map',
   module: {

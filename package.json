@@ -1,9 +1,19 @@
 {
     "name": "SPARQLBuilder",
-    "author": "AtomGraph",
+    "author": {
+        "name": "Martynas Jusevičius",
+        "email": "martynas@atomgraph.com",
+        "url": "https://github.com/AtomGraph"
+    },
     "version": "0.0.1",
-    "main": "./lib/main.js",
-    "types": "./lib/main.d.ts",
+    "keywords": [
+        "sparql",
+        "rdf",
+        "query",
+        "builder"
+    ],
+    "main": "./build/index.js",
+    "types": "./build/index.d.ts",
     "scripts": {
         "test": "mocha -r ts-node/register test/**/*.ts"
     },
