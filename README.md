@@ -5,6 +5,7 @@ SPARQL query builder written in TypeScript
 
 Code:
 ```typescript
+let query = "SELECT ?s { ?s ?p ?o }";
 SelectBuilder.fromString(query).limit(42).offset(66).orderByExpression(SelectBuilder.var("s"), true).orderByExpression(SelectBuilder.var("p")).toString()
 ```
 
