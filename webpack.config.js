@@ -1,6 +1,29 @@
 const path = require('path');
 
-module.exports = {
+const nodeConfig = {
+  entry: './src/com/atomgraph/platform/query/SPARQLBuilder.ts',
+  mode: 'development',
+  devtool: 'inline-source-map',
+  module: {
+    rules: [
+      {
+        test: /\.ts?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/
+      }
+    ]
+  },
+  resolve: {
+    extensions: [ '.ts', '.js' ]
+  },
+  target: 'node',
+  output: {
+    filename: 'SPARQLBuilder.node.js',
+    path: path.resolve(__dirname, 'dist')
+  }
+};
+
+const webConfig = {
   entry: './src/com/atomgraph/platform/query/SPARQLBuilder.ts',
   mode: 'development',
   devtool: 'inline-source-map',
@@ -23,3 +46,5 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   }
 };
+
+module.exports = [ nodeConfig, webConfig ];

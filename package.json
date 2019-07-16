@@ -12,9 +12,10 @@
         "query",
         "builder"
     ],
-    "main": "./build/index.js",
-    "types": "./build/index.d.ts",
+    "main": "./dist/SPARQLBuilder.node.js",
+    "types": "./build/src/com/atomgraph/platform/query/SPARQLBuilder.d.ts",
     "scripts": {
+        "build": "tsc",
         "test": "mocha -r ts-node/register test/**/*.ts"
     },
     "dependencies": {
@@ -24,6 +25,7 @@
     "devDependencies": {
         "chai": "4.1.x",
         "mocha": "4.1.x",
+        "sparqljs": "^1.5.2",
         "ts-loader": "^5.3.3",
         "ts-node": "^8.0.3",
         "typescript": "^3.3.3333",

@@ -5,10 +5,15 @@
         "sourceMap": true,
         "target": "es6",
         "module": "commonjs",
-        "declaration": true
+        "declaration": true,
+        "composite": true
     },
     "include": [
         "./src/**/*",
         "./test/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
     ]
 }
