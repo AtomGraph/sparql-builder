@@ -1,14 +1,33 @@
 import { QueryBuilder } from '../../../../../src/com/atomgraph/platform/query/QueryBuilder';
-import { Parser, Term } from 'sparqljs';
+import { Parser, Term, FilterPattern } from 'sparqljs';
 import { expect } from 'chai';
 import 'mocha';
 
 describe('QueryBuilder', () => {
 
-  it('bgp()', () => {
+  it('bgpTriple()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o . ?s ?x \"y\" }";
     let actual = QueryBuilder.fromString(query).bgpTriple({ subject: QueryBuilder.var("s"), predicate: QueryBuilder.var("x"), object: QueryBuilder.literal("y") }).build();
+
+    expect(actual).to.deep.equal(new Parser().parse(expected));
+  });
+
+  it('filter()', () => {
+    let query = "SELECT ?s { ?s ?p ?o }";
+    let expected = "SELECT ?s { ?s ?p ?o FILTER (?o > 42) }";
+    let actual = QueryBuilder.fromString(query).filter(<FilterPattern>{
+          "type": "filter",
+          "expression": {
+            "type": "operation",
+            "operator": ">",
+            "args": [
+              "?o",
+              "\"42\"^^http://www.w3.org/2001/XMLSchema#integer"
+            ]
+          }
+        }).
+    build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
