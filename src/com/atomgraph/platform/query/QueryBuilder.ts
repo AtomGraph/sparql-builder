@@ -109,13 +109,18 @@ export class QueryBuilder
         }
     }
 
-    public static in(varName: string, list: Term[]): OperationExpression
+    public static operation(operator: string, args: Expression[]): OperationExpression
     {
         return {
             "type": "operation",
-            "operator": "in",
-            "args": [ QueryBuilder.var(varName), list]
+            "operator": operator,
+            "args": args
         };
+    }
+
+    public static in(varName: string, list: Term[]): OperationExpression
+    {
+        return QueryBuilder.operation("in", [ QueryBuilder.var(varName), list]);
     }
 
     public static regex(varName: string, pattern: string, caseInsensitive?: boolean): OperationExpression

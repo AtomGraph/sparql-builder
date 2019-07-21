@@ -40,6 +40,14 @@ describe('QueryBuilder', () => {
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
 
+  it('operation()', () => {
+    let query = "SELECT ?s { ?s ?p ?o }";
+    let expected = "SELECT ?s { ?s ?p ?o FILTER (?s IN (<http://a>, \"b\", \"c\")) }";
+    let actual = QueryBuilder.fromString(query).where(QueryBuilder.filter(QueryBuilder.operation("in", [ QueryBuilder.var("s"), [ <Term>"http://a", QueryBuilder.literal("b"), QueryBuilder.literal("c") ] ]))).build();
+
+    expect(actual).to.deep.equal(new Parser().parse(expected));
+  });
+
   it('in()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o FILTER (?s IN (<http://a>, \"b\", \"c\")) }";
@@ -47,6 +55,5 @@ describe('QueryBuilder', () => {
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
-
 
 });
