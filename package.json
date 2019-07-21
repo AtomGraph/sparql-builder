@@ -20,16 +20,16 @@
     },
     "dependencies": {
         "@types/sparqljs": "^2.1.0",
-        "sparqljs": "^1.5.2"
+        "sparqljs": "^2.1.0"
     },
     "devDependencies": {
         "chai": "4.1.x",
         "mocha": "4.1.x",
-        "sparqljs": "^1.5.2",
-        "ts-loader": "^5.3.3",
-        "ts-node": "^8.0.3",
-        "typescript": "^3.3.3333",
-        "webpack": "^4.29.6",
-        "webpack-cli": "^3.3.0"
+        "sparqljs": "^2.1.0",
+        "ts-loader": "^5.4.5",
+        "ts-node": "^8.3.0",
+        "typescript": "^3.5.3",
+        "webpack": "^4.36.1",
+        "webpack-cli": "^3.3.6"
     }
 }

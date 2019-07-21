@@ -1,4 +1,4 @@
-import { Parser, Query, BaseQuery, Pattern, Expression, FilterPattern, BgpPattern, OperationExpression, Triple, Term, Generator, SparqlGenerator } from 'sparqljs';
+import { Parser, Query, BaseQuery, Pattern, Expression, FilterPattern, BgpPattern, GroupPattern, OperationExpression, Triple, Term, Generator, SparqlGenerator } from 'sparqljs';
 
 export class QueryBuilder
 {
@@ -29,18 +29,8 @@ export class QueryBuilder
         return this;
     }
 
-    public bgp(bgp: BgpPattern): QueryBuilder
-    {
-        return this.where(bgp);
-    }
-
     public bgpTriples(triples: Triple[]): QueryBuilder
     {
-        let bgp: BgpPattern = {
-          "type": "bgp",
-          "triples": triples
-        };
-
         // if the last pattern is BGP, append triples to it instead of adding new BGP
         if (this.getQuery().where)
         {
@@ -52,51 +42,12 @@ export class QueryBuilder
             }
         }
 
-        return this.bgp(bgp);
+        return this.where(QueryBuilder.bgp(triples));
     }
 
     public bgpTriple(triple: Triple): QueryBuilder
     {
         return this.bgpTriples([triple]);
-    }
-
-    public filter(filter: FilterPattern): QueryBuilder
-    {
-        return this.where(filter);
-    }
-
-    public filterRegex(varName: string, pattern: string, caseInsensitive?: boolean): QueryBuilder
-    {
-        let expression: OperationExpression = {
-            "type": "operation",
-            "operator": "regex",
-            "args": [ <Term>("?" + varName), <Term>("\"" + pattern + "\"")]
-        };
-
-        if (caseInsensitive) expression.args.push(<Term>"\"i\"");
-
-        let filter: FilterPattern = {
-            "type": "filter",
-            "expression": expression
-        };
-
-        return this.filter(filter);
-    }
-
-    public filterIn(varName: string, list: Term[]): QueryBuilder
-    {
-        let expression: OperationExpression = {
-            "type": "operation",
-            "operator": "in",
-            "args": [ QueryBuilder.var(varName), list]
-        };
-
-        let filter: FilterPattern = {
-            "type": "filter",
-            "expression": expression
-        };
-
-        return this.filter(filter);
     }
 
     protected getQuery(): Query
@@ -132,6 +83,52 @@ export class QueryBuilder
     public static uri(value: string): Term
     {
         return <Term>value;
+    }
+
+    public static bgp(triples: Triple[]): BgpPattern
+    {
+        return {
+          "type": "bgp",
+          "triples": triples
+        };
+    }
+
+    public static group(patterns: Pattern[]): GroupPattern
+    {
+        return {
+            "type": "group",
+            "patterns": patterns
+        }
+    }
+
+    public static filter(expression: Expression): FilterPattern
+    {
+        return {
+            "type": "filter",
+            "expression": expression
+        }
+    }
+
+    public static in(varName: string, list: Term[]): OperationExpression
+    {
+        return {
+            "type": "operation",
+            "operator": "in",
+            "args": [ QueryBuilder.var(varName), list]
+        };
+    }
+
+    public static regex(varName: string, pattern: string, caseInsensitive?: boolean): OperationExpression
+    {
+        let expression: OperationExpression = {
+            "type": "operation",
+            "operator": "regex",
+            "args": [ <Term>("?" + varName), <Term>("\"" + pattern + "\"")]
+        };
+
+        if (caseInsensitive) expression.args.push(<Term>"\"i\"");
+
+        return expression;
     }
 
 }

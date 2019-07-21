@@ -16,7 +16,7 @@ describe('QueryBuilder', () => {
   it('filter()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o FILTER (?o > 42) }";
-    let actual = QueryBuilder.fromString(query).filter(<FilterPattern>{
+    let actual = QueryBuilder.fromString(query).where(<FilterPattern>{
           "type": "filter",
           "expression": {
             "type": "operation",
@@ -32,18 +32,18 @@ describe('QueryBuilder', () => {
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
 
-  it('filterRegex()', () => {
+  it('regex()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o FILTER (regex(?s, \"test\")) }";
-    let actual = QueryBuilder.fromString(query).filterRegex("s", "test").build();
+    let actual = QueryBuilder.fromString(query).where(QueryBuilder.filter(QueryBuilder.regex("s", "test"))).build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
 
-  it('filterIn()', () => {
+  it('in()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o FILTER (?s IN (<http://a>, \"b\", \"c\")) }";
-    let actual = QueryBuilder.fromString(query).filterIn("s", [<Term>"http://a", QueryBuilder.literal("b"), QueryBuilder.literal("c")]).build();
+    let actual = QueryBuilder.fromString(query).where(QueryBuilder.filter(QueryBuilder.in("s", [<Term>"http://a", QueryBuilder.literal("b"), QueryBuilder.literal("c")]))).build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });

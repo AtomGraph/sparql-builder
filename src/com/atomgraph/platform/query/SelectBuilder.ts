@@ -51,16 +51,6 @@ export class SelectBuilder extends QueryBuilder
         return this;
     }
 
-    public orderByExpression(expr: Expression, desc?: boolean): SelectBuilder
-    {
-        let ordering: Ordering = {
-          "expression": expr,
-        };
-        if (desc !== undefined && desc == true) ordering.descending = desc;
-
-        return this.orderBy(ordering);
-    }
-
     public offset(offset: number): SelectBuilder
     {
         this.getQuery().offset = offset;
@@ -83,6 +73,17 @@ export class SelectBuilder extends QueryBuilder
     public build(): SelectQuery
     {
         return <SelectQuery>super.build();
+    }
+
+    public static ordering(expr: Expression, desc?: boolean): Ordering
+    {
+        let ordering: Ordering = {
+          "expression": expr,
+        };
+
+        if (desc !== undefined && desc == true) ordering.descending = desc;
+
+        return ordering;
     }
 
 }

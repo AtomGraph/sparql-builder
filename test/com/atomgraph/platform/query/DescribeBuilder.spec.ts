@@ -13,6 +13,16 @@ describe('DescribeBuilder', () => {
     expect(actual).to.deep.equal(DescribeBuilder.fromString(expected).build());
   });
 
+  it('new().where(SelectBuilder)', () => {
+    let subQuery = "SELECT * { ?a ?b ?c }";
+    let expected = "DESCRIBE * { " + subQuery + " }";
+    let actual = DescribeBuilder.fromString("DESCRIBE *").where(SelectBuilder.fromString(subQuery).build()).build();
+
+    // prefixes don't match when compared as JSON objects
+    //expect(actual).to.deep.equal(DescribeBuilder.fromString("DESCRIBE * { SELECT * { ?a ?b ?c } }").build());
+    expect(actual.toString()).to.equal(DescribeBuilder.fromString("DESCRIBE * { SELECT * { ?a ?b ?c } }").build().toString());
+  });
+
   it('projectAll()', () => {
     let query = "DESCRIBE ?x { ?x ?y ?z }";
     let expected = "DESCRIBE * { ?x ?y ?z }";
@@ -47,11 +57,11 @@ describe('DescribeBuilder', () => {
     let expected = "DESCRIBE * { ?x ?y ?z { " + subQuery + " LIMIT 10 OFFSET 20 } }";
 
     // prefixes don't match when compared as JSON objects
-    //let actual = DescribeBuilder.fromString(query).where(SelectBuilder.fromString(subQuery).limit(10).offset(20).build()).build();
+    //let actual = DescribeBuilder.fromString(query).where(DescribeBuilder.group([SelectBuilder.fromString(subQuery).limit(10).offset(20).build()]));
     //expect(actual).to.deep.equal(DescribeBuilder.fromString(expected).build());
 
     // compare as strings insted
-    let actual = DescribeBuilder.fromString(query).where(SelectBuilder.fromString(subQuery).limit(10).offset(20).build()).toString();
+    let actual = DescribeBuilder.fromString(query).where(DescribeBuilder.group([SelectBuilder.fromString(subQuery).limit(10).offset(20).build()])).toString();
     expect(actual).to.equal(DescribeBuilder.fromString(expected).toString());
   });
 
