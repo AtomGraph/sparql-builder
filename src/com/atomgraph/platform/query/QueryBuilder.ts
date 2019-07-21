@@ -80,6 +80,11 @@ export class QueryBuilder
         return <Term>("\"" + value + "\"");
     }
 
+    public static typedLiteral(value: string, datatype: string): Term
+    {
+        return <Term>("\"" + value + "\"^^" + datatype);
+    }
+
     public static uri(value: string): Term
     {
         return <Term>value;

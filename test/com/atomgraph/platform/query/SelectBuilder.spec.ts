@@ -1,5 +1,5 @@
 import { SelectBuilder } from '../../../../../src/com/atomgraph/platform/query/SelectBuilder';
-import { Parser, Term } from 'sparqljs';
+import { Parser } from 'sparqljs';
 import { expect } from 'chai';
 import 'mocha';
 

@@ -1,5 +1,5 @@
 import { QueryBuilder } from '../../../../../src/com/atomgraph/platform/query/QueryBuilder';
-import { Parser, Term, FilterPattern } from 'sparqljs';
+import { Parser, OperationExpression } from 'sparqljs';
 import { expect } from 'chai';
 import 'mocha';
 
@@ -16,17 +16,7 @@ describe('QueryBuilder', () => {
   it('filter()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o FILTER (?o > 42) }";
-    let actual = QueryBuilder.fromString(query).where(<FilterPattern>{
-          "type": "filter",
-          "expression": {
-            "type": "operation",
-            "operator": ">",
-            "args": [
-              "?o",
-              "\"42\"^^http://www.w3.org/2001/XMLSchema#integer"
-            ]
-          }
-        }).
+    let actual = QueryBuilder.fromString(query).where(QueryBuilder.filter(QueryBuilder.operation(">", [ QueryBuilder.var("o"), QueryBuilder.typedLiteral("42", "http://www.w3.org/2001/XMLSchema#integer") ]))).
     build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
@@ -43,7 +33,7 @@ describe('QueryBuilder', () => {
   it('operation()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o FILTER (?s IN (<http://a>, \"b\", \"c\")) }";
-    let actual = QueryBuilder.fromString(query).where(QueryBuilder.filter(QueryBuilder.operation("in", [ QueryBuilder.var("s"), [ <Term>"http://a", QueryBuilder.literal("b"), QueryBuilder.literal("c") ] ]))).build();
+    let actual = QueryBuilder.fromString(query).where(QueryBuilder.filter(QueryBuilder.operation("in", [ QueryBuilder.var("s"), [ QueryBuilder.uri("http://a"), QueryBuilder.literal("b"), QueryBuilder.literal("c") ] ]))).build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
@@ -51,7 +41,7 @@ describe('QueryBuilder', () => {
   it('in()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o FILTER (?s IN (<http://a>, \"b\", \"c\")) }";
-    let actual = QueryBuilder.fromString(query).where(QueryBuilder.filter(QueryBuilder.in("s", [<Term>"http://a", QueryBuilder.literal("b"), QueryBuilder.literal("c")]))).build();
+    let actual = QueryBuilder.fromString(query).where(QueryBuilder.filter(QueryBuilder.in("s", [ QueryBuilder.uri("http://a"), QueryBuilder.literal("b"), QueryBuilder.literal("c") ]))).build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
