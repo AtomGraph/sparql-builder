@@ -1,4 +1,4 @@
-import { Parser, Query, BaseQuery, Pattern, Expression, FilterPattern, BgpPattern, GroupPattern, OperationExpression, Triple, Term, Generator, SparqlGenerator } from 'sparqljs';
+import { Parser, Query, BaseQuery, Pattern, Expression, FilterPattern, BgpPattern, GraphPattern, GroupPattern, OperationExpression, Triple, Term, PropertyPath, Generator, SparqlGenerator } from 'sparqljs';
 
 export class QueryBuilder
 {
@@ -90,12 +90,30 @@ export class QueryBuilder
         return <Term>value;
     }
 
+    public static triple(subject: Term, predicate: PropertyPath | Term, object: Term): Triple
+    {
+        return {
+            "subject": subject,
+            "predicate": predicate,
+            "object": object
+        };
+    }
+
     public static bgp(triples: Triple[]): BgpPattern
     {
         return {
           "type": "bgp",
           "triples": triples
         };
+    }
+
+    public static graph(name: string, patterns: Pattern[]): GraphPattern
+    {
+        return {
+            "type": "graph",
+            "name": <Term>name,
+            "patterns": patterns
+        }
     }
 
     public static group(patterns: Pattern[]): GroupPattern
