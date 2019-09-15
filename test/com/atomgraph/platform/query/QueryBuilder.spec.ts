@@ -30,6 +30,14 @@ describe('QueryBuilder', () => {
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
 
+  it('regexInsensitive()', () => {
+    let query = "SELECT ?s { ?s ?p ?o }";
+    let expected = "SELECT ?s { ?s ?p ?o FILTER (regex(?s, \"test\", \"i\")) }";
+    let actual = QueryBuilder.fromString(query).where(QueryBuilder.filter(QueryBuilder.regex("s", "test", true))).build();
+
+    expect(actual).to.deep.equal(new Parser().parse(expected));
+  });
+
   it('operation()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o FILTER (?s IN (<http://a>, \"b\", \"c\")) }";
