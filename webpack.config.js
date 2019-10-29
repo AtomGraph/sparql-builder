@@ -18,6 +18,7 @@ const nodeConfig = {
   },
   target: 'node',
   output: {
+    libraryTarget: 'commonjs2',
     filename: 'SPARQLBuilder.js',
     path: path.resolve(__dirname, 'dist/node')
   }
@@ -39,6 +40,7 @@ const webConfig = {
   resolve: {
     extensions: [ '.ts', '.js' ]
   },
+  target: 'web',
   output: {
     library: ["SPARQLBuilder"],
     libraryTarget: "window",

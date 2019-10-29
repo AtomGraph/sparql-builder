@@ -5,8 +5,8 @@
         "email": "martynas@atomgraph.com",
         "url": "https://github.com/AtomGraph"
     },
-    "license": "Apache",
-    "version": "1.0.2",
+    "license": "Apache-2.0",
+    "version": "1.0.6",
     "keywords": [
         "sparql",
         "rdf",
@@ -23,7 +23,7 @@
         "definition": "dist/index.d.ts"
     },
     "scripts": {
-        "build": "tsc",
+        "build": "tsc --declaration",
         "test": "mocha -r ts-node/register test/**/*.ts"
     },
     "dependencies": {

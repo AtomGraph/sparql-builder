@@ -1,15 +1,37 @@
-# SPARQLBuilder
+# sparql-builder
 SPARQL query builder written in TypeScript
+
+## Usage
+
+The builder is published as [`builder`](https://www.npmjs.com/package/sparql-builder) package on npm. Import it into your `package.json`:
+
+```json
+    "dependencies": {
+        "sparql-builder": "^1.0.6",
+    }
+```
 
 ## Example:
 
-Code:
+Code in `test.ts`:
 ```typescript
+import { SelectBuilder } from 'sparql-builder';
+
 let query = "SELECT ?s { ?s ?p ?o }";
-SelectBuilder.fromString(query).limit(42).offset(66).orderByExpression(SelectBuilder.var("s"), true).orderByExpression(SelectBuilder.var("p")).toString()
+
+let builder = SelectBuilder.fromString(query).
+    limit(42).
+    offset(66).
+    orderBy(SelectBuilder.ordering(SelectBuilder.var("s"), true)).
+    orderBy(SelectBuilder.ordering(SelectBuilder.var("p")));
+
+console.log(builder.toString());
 ```
 
-Output:
+Output of `tsc && node test.js`:
 ```sparql
-SELECT ?s { ?s ?p ?o } ORDER BY DESC(?s) ?p LIMIT 42 OFFSET 66
+SELECT ?s WHERE { ?s ?p ?o. }
+ORDER BY DESC (?s) (?p)
+OFFSET 66
+LIMIT 42
 ```
