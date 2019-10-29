@@ -3,7 +3,7 @@ SPARQL query builder written in TypeScript
 
 ## Usage
 
-The builder is published as [`builder`](https://www.npmjs.com/package/sparql-builder) package on npm. Import it into your `package.json`:
+The builder is published as [`sparql-builder`](https://www.npmjs.com/package/sparql-builder) package on npm. Import it into your `package.json`:
 
 ```json
     "dependencies": {
