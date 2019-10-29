@@ -1,7 +1,7 @@
 const path = require('path');
 
 const nodeConfig = {
-  entry: './src/com/atomgraph/platform/query/SPARQLBuilder.ts',
+  entry: './src/com/atomgraph/linkeddatahub/query/SPARQLBuilder.ts',
   mode: 'development',
   devtool: 'inline-source-map',
   module: {
@@ -18,13 +18,13 @@ const nodeConfig = {
   },
   target: 'node',
   output: {
-    filename: 'SPARQLBuilder.node.js',
-    path: path.resolve(__dirname, 'dist')
+    filename: 'SPARQLBuilder.js',
+    path: path.resolve(__dirname, 'dist/node')
   }
 };
 
 const webConfig = {
-  entry: './src/com/atomgraph/platform/query/SPARQLBuilder.ts',
+  entry: './src/com/atomgraph/linkeddatahub/query/SPARQLBuilder.ts',
   mode: 'development',
   devtool: 'inline-source-map',
   module: {
@@ -43,7 +43,7 @@ const webConfig = {
     library: ["SPARQLBuilder"],
     libraryTarget: "window",
     filename: 'SPARQLBuilder.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist/window')
   }
 };
 

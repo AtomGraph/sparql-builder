@@ -1,19 +1,27 @@
 {
-    "name": "SPARQLBuilder",
+    "name": "sparql-builder",
     "author": {
         "name": "Martynas Jusevičius",
         "email": "martynas@atomgraph.com",
         "url": "https://github.com/AtomGraph"
     },
-    "version": "0.0.1",
+    "license": "Apache",
+    "version": "1.0.2",
     "keywords": [
         "sparql",
         "rdf",
         "query",
         "builder"
     ],
-    "main": "./dist/SPARQLBuilder.node.js",
-    "types": "./build/src/com/atomgraph/platform/query/SPARQLBuilder.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/AtomGraph/SPARQLBuilder.git"
+    },
+    "main": "./dist/node/SPARQLBuilder.js",
+    "types": "./dist/index.d.ts",
+    "typescript": {
+        "definition": "dist/index.d.ts"
+    },
     "scripts": {
         "build": "tsc",
         "test": "mocha -r ts-node/register test/**/*.ts"

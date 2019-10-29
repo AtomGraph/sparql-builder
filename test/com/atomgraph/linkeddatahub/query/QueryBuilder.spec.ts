@@ -1,4 +1,4 @@
-import { QueryBuilder } from '../../../../../src/com/atomgraph/platform/query/QueryBuilder';
+import { QueryBuilder } from '../../../../../src/com/atomgraph/linkeddatahub/query/QueryBuilder';
 import { Parser, OperationExpression } from 'sparqljs';
 import { expect } from 'chai';
 import 'mocha';

@@ -1,4 +1,4 @@
-import { SelectBuilder } from '../../../../../src/com/atomgraph/platform/query/SelectBuilder';
+import { SelectBuilder } from '../../../../../src/com/atomgraph/linkeddatahub/query/SelectBuilder';
 import { Parser } from 'sparqljs';
 import { expect } from 'chai';
 import 'mocha';
