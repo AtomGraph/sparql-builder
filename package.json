@@ -6,16 +6,20 @@
         "url": "https://github.com/AtomGraph"
     },
     "license": "Apache-2.0",
-    "version": "1.0.6",
+    "version": "1.0.7",
     "keywords": [
         "sparql",
         "rdf",
         "query",
-        "builder"
+        "builder",
+        "query-builder"
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/AtomGraph/SPARQLBuilder.git"
+        "url": "https://github.com/AtomGraph/sparql-builder.git"
+    },
+    "bugs": {
+        "url": "https://github.com/AtomGraph/sparql-builder/issues"
     },
     "main": "./dist/node/SPARQLBuilder.js",
     "types": "./dist/index.d.ts",
