@@ -1,5 +1,11 @@
 # sparql-builder
-SPARQL query builder written in TypeScript
+SPARQL query builder written in TypeScript. Can be used from both TypeScript and JavaScript, although type-safety is lost in JavaScript.
+
+It [exposes the following classes](dist/index.ts):
+
+* `QueryBuilder` - builder base class
+    * `SelectBuilder` - `SELECT` query builder
+    * `DescribeBuilder` - `DESCRIBE` query builder
 
 ## Usage
 
@@ -7,7 +13,7 @@ The builder is published as [`sparql-builder`](https://www.npmjs.com/package/spa
 
 ```json
     "dependencies": {
-        "sparql-builder": "^1.0.6",
+        "sparql-builder": "^1.0.6"
     }
 ```
 
