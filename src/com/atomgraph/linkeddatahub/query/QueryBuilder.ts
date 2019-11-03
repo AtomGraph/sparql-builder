@@ -70,6 +70,11 @@ export class QueryBuilder
         return this.getGenerator().stringify(this.getQuery());
     }
 
+    public static term(value: string): Term
+    {
+        return <Term>value;
+    }
+
     public static var(varName: string): Term
     {
         return <Term>("?" + varName);
@@ -141,22 +146,32 @@ export class QueryBuilder
         };
     }
 
-    public static in(varName: string, list: Term[]): OperationExpression
+    public static in(term: Term, list: Term[]): OperationExpression
     {
-        return QueryBuilder.operation("in", [ QueryBuilder.var(varName), list]);
+        return QueryBuilder.operation("in", [ term, list ]);
     }
 
-    public static regex(varName: string, pattern: string, caseInsensitive?: boolean): OperationExpression
+    public static regex(term: Term, pattern: Term, caseInsensitive?: boolean): OperationExpression
     {
         let expression: OperationExpression = {
             "type": "operation",
             "operator": "regex",
-            "args": [ <Term>("?" + varName), <Term>("\"" + pattern + "\"")]
+            "args": [ term, <Term>("\"" + pattern + "\"") ]
         };
 
         if (caseInsensitive) expression.args.push(<Term>"\"i\"");
 
         return expression;
+    }
+
+    public static eq(arg1: Expression, arg2: Expression): OperationExpression
+    {
+        return QueryBuilder.operation("=", [ arg1, arg2 ]);
+    }
+
+    public static str(arg: Expression): OperationExpression
+    {
+        return QueryBuilder.operation("str", [ arg ]);
     }
 
 }

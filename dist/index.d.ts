@@ -18,6 +18,7 @@ export class QueryBuilder {
     protected getGenerator(): SparqlGenerator;
     build(): Query;
     toString(): string;
+    static term(value: string): Term;
     static var(varName: string): Term;
     static literal(value: string): Term;
     static typedLiteral(value: string, datatype: string): Term;
@@ -28,8 +29,10 @@ export class QueryBuilder {
     static group(patterns: Pattern[]): GroupPattern;
     static filter(expression: Expression): FilterPattern;
     static operation(operator: string, args: Expression[]): OperationExpression;
-    static in(varName: string, list: Term[]): OperationExpression;
-    static regex(varName: string, pattern: string, caseInsensitive?: boolean): OperationExpression;
+    static in(term: Term, list: Term[]): OperationExpression;
+    static regex(term: Term, pattern: Term, caseInsensitive?: boolean): OperationExpression;
+    static eq(arg1: Expression, arg2: Expression): OperationExpression;
+    static str(arg: Expression): OperationExpression;
 }
 
 export class SelectBuilder extends QueryBuilder {
