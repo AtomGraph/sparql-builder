@@ -9,12 +9,12 @@ It [exposes the following classes](dist/index.d.ts):
 
 ## Build
 
-The [`build-dist.sh`](`build-dist.sh) script does the following:
+The [`build-dist.sh`](build-dist.sh) script does the following:
 * compiles the TypeScript code using `tsc`
 * runs unit tests using `npm test`
 * packages the library with `webpack`
-  - for use in the browser (`window` target, output in [`dist/window`](dist/window))
-  - for use with Node.js (`commonjs2` target, output in [`dist/node`](dist/node))
+  - for use in the browser (`window` target, output in `dist/window`)
+  - for use with Node.js (`commonjs2` target, output in `dist/node`)
 
 ## Usage
 
