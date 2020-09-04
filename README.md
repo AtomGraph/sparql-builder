@@ -7,6 +7,15 @@ It [exposes the following classes](dist/index.d.ts):
     * `SelectBuilder` - `SELECT` query builder
     * `DescribeBuilder` - `DESCRIBE` query builder
 
+## Build
+
+The [`build-dist.sh`](`build-dist.sh) script does the following:
+* compiles the TypeScript code using `tsc`
+* runs unit tests using `npm test`
+* packages the library with `webpack`
+  - for use in the browser (`window` target, output in [`dist/window`](dist/window))
+  - for use with Node.js (`commonjs2` target, output in [`dist/node`](dist/node))
+
 ## Usage
 
 The builder is published as [`sparql-builder`](https://www.npmjs.com/package/sparql-builder) package on npm. Import it into your `package.json`:

@@ -61,6 +61,30 @@ describe('SelectBuilder', () => {
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
 
+  it('projectAll()', () => {
+    let query = "SELECT ?s { ?s ?p ?o }";
+    let expected = "SELECT * { ?s ?p ?o }";
+    let actual = SelectBuilder.fromString(query).projectAll().build();
+
+    expect(actual).to.deep.equal(new Parser().parse(expected));
+  });
+
+  it('projection()', () => {
+    let query = "SELECT ?s { ?s ?p ?o }";
+    let expected = "SELECT ?x ?y { ?s ?p ?o }";
+    let actual = SelectBuilder.fromString(query).projection([ SelectBuilder.var("x"), SelectBuilder.var("y") ]).build();
+
+    expect(actual).to.deep.equal(new Parser().parse(expected));
+  });
+
+  it('project()', () => {
+    let query = "SELECT ?s { ?s ?p ?o }";
+    let expected = "SELECT ?s ?x ?y { ?s ?p ?o }";
+    let actual = SelectBuilder.fromString(query).project(SelectBuilder.var("x")).project(SelectBuilder.var("y")).build();
+
+    expect(actual).to.deep.equal(new Parser().parse(expected));
+  });
+
   it('isProjected()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
 
