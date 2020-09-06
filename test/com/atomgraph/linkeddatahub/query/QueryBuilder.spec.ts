@@ -13,6 +13,15 @@ describe('QueryBuilder', () => {
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
 
+  it('graph()', () => {
+    let query = "SELECT ?s { ?s ?p ?o }";
+    let expected = "SELECT ?s { GRAPH ?g { ?s ?p ?o } }";
+    let patterns = QueryBuilder.fromString(query).build().where ? QueryBuilder.fromString(query).build().where! : [];
+    let actual = QueryBuilder.fromString("SELECT ?s { }").where(QueryBuilder.graph(QueryBuilder.var("g"), patterns)).build(); // wrap the { ?s ?p ?o } pattern into GRAPH ?g
+
+    expect(actual).to.deep.equal(new Parser().parse(expected));
+  });
+
   it('filter()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o FILTER (?o > 42) }";
