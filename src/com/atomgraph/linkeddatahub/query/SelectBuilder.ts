@@ -17,28 +17,28 @@ export class SelectBuilder extends QueryBuilder
         return new SelectBuilder(<SelectQuery>query);
     }
 
-    public projectAll(): SelectBuilder
+    public variablesAll(): SelectBuilder
     {
         this.getQuery().variables = [ "*" ];
 
         return this;
     }
 
-    public projection(variables: Variable[]): SelectBuilder
+    public variables(variables: Variable[]): SelectBuilder
     {
         this.getQuery().variables = variables;
 
         return this;
     }
 
-    public project(term: Term): SelectBuilder
+    public variable(term: Term): SelectBuilder
     {
         this.getQuery().variables.push(<Term & "*">term);
 
         return this;
     }
 
-    public isProjected(term: Term): boolean
+    public isVariable(term: Term): boolean
     {
         return this.getQuery().variables.includes(<Term & "*">term);
     }

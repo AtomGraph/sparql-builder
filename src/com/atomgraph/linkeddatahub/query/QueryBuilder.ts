@@ -1,4 +1,4 @@
-import { Parser, Query, BaseQuery, Pattern, Expression, FilterPattern, BgpPattern, GraphPattern, GroupPattern, OperationExpression, Triple, Term, PropertyPath, Generator, SparqlGenerator } from 'sparqljs';
+import { Parser, Query, BaseQuery, Pattern, Expression, BlockPattern, FilterPattern, BgpPattern, GraphPattern, GroupPattern, OperationExpression, Triple, Term, PropertyPath, Generator, SparqlGenerator } from 'sparqljs';
 
 export class QueryBuilder
 {
@@ -21,9 +21,16 @@ export class QueryBuilder
         return new QueryBuilder(<Query>query);
     }
 
-    public where(pattern: Pattern): QueryBuilder
+    public where(pattern: Pattern[]): QueryBuilder
     {
-        if (!this.getQuery().where) this.getQuery().where = [];
+        this.getQuery().where = pattern;
+
+        return this;
+    }
+
+    public wherePattern(pattern: Pattern): QueryBuilder
+    {
+        if (!this.getQuery().where) this.where([]);
         this.getQuery().where!.push(pattern);
 
         return this;
@@ -42,7 +49,7 @@ export class QueryBuilder
             }
         }
 
-        return this.where(QueryBuilder.bgp(triples));
+        return this.wherePattern(QueryBuilder.bgp(triples));
     }
 
     public bgpTriple(triple: Triple): QueryBuilder
@@ -125,6 +132,14 @@ export class QueryBuilder
     {
         return {
             "type": "group",
+            "patterns": patterns
+        }
+    }
+
+    public static union(patterns: Pattern[]): BlockPattern
+    {
+        return {
+            "type": "union",
             "patterns": patterns
         }
     }

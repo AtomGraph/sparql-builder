@@ -29,28 +29,28 @@ export class DescribeBuilder extends QueryBuilder
         });
     }
 
-    public projectAll(): DescribeBuilder
+    public variablesAll(): DescribeBuilder
     {
         this.getQuery().variables = [ "*" ];
 
         return this;
     }
 
-    public projection(variables: Variable[]): DescribeBuilder
+    public variables(variables: Variable[]): DescribeBuilder
     {
         this.getQuery().variables = variables;
 
         return this;
     }
 
-    public project(term: Term): DescribeBuilder
+    public variable(term: Term): DescribeBuilder
     {
         this.getQuery().variables.push(<Term & "*">term);
 
         return this;
     }
 
-    public isProjected(term: Term): boolean
+    public isVariable(term: Term): boolean
     {
         return this.getQuery().variables.includes(<Term & "*">term);
     }

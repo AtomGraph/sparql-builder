@@ -61,40 +61,40 @@ describe('SelectBuilder', () => {
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
 
-  it('projectAll()', () => {
+  it('variablesAll()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT * { ?s ?p ?o }";
-    let actual = SelectBuilder.fromString(query).projectAll().build();
+    let actual = SelectBuilder.fromString(query).variablesAll().build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
 
-  it('projection()', () => {
+  it('variables()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?x ?y { ?s ?p ?o }";
-    let actual = SelectBuilder.fromString(query).projection([ SelectBuilder.var("x"), SelectBuilder.var("y") ]).build();
+    let actual = SelectBuilder.fromString(query).variables([ SelectBuilder.var("x"), SelectBuilder.var("y") ]).build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
 
-  it('project()', () => {
+  it('variable()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s ?x ?y { ?s ?p ?o }";
-    let actual = SelectBuilder.fromString(query).project(SelectBuilder.var("x")).project(SelectBuilder.var("y")).build();
+    let actual = SelectBuilder.fromString(query).variable(SelectBuilder.var("x")).variable(SelectBuilder.var("y")).build();
 
     expect(actual).to.deep.equal(new Parser().parse(expected));
   });
 
-  it('isProjected()', () => {
+  it('isVariable()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
 
-    expect(SelectBuilder.fromString(query).isProjected(SelectBuilder.var("s"))).to.equal(true);
+    expect(SelectBuilder.fromString(query).isVariable(SelectBuilder.var("s"))).to.equal(true);
   });
 
-  it('!isProjected()', () => {
+  it('!isVariable()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
 
-    expect(SelectBuilder.fromString(query).isProjected(SelectBuilder.var("x"))).to.equal(false);
+    expect(SelectBuilder.fromString(query).isVariable(SelectBuilder.var("x"))).to.equal(false);
   });
 
 });

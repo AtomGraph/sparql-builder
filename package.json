@@ -2,7 +2,7 @@
   "name": "@atomgraph/sparql-builder",
   "author": "Martynas Jusevičius <martynas@atomgraph.com> (https://github.com/AtomGraph)",
   "license": "Apache-2.0",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "keywords": [
     "sparql",
     "rdf",
@@ -41,7 +41,7 @@
     "webpack-cli": "^3.3.6"
   },
   "description": "SPARQL query builder written in TypeScript. Can be used from both TypeScript and JavaScript, although type-safety is lost in JavaScript.",
-  "homepage": "https://github.com/AtomGraph/sparql-builder#readme",
+  "homepage": "https://github.com/AtomGraph/sparql-builder",
   "directories": {
     "test": "test"
   }
