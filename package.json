@@ -2,7 +2,7 @@
   "name": "@atomgraph/sparql-builder",
   "author": "Martynas Jusevičius <martynas@atomgraph.com> (https://github.com/AtomGraph)",
   "license": "Apache-2.0",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "keywords": [
     "sparql",
     "rdf",

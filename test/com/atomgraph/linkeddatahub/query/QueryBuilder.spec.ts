@@ -5,6 +5,14 @@ import 'mocha';
 
 describe('QueryBuilder', () => {
 
+  it('from()', () => {
+    let query = "SELECT ?s { ?s ?p ?o }";
+    let expected = QueryBuilder.fromString(query).build();
+    let actual = QueryBuilder.fromQuery(expected).build();
+
+    expect(actual).to.deep.equal(expected);
+  });
+
   it('bgpTriple()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o . ?s ?x \"y\" }";

@@ -5,6 +5,14 @@ import 'mocha';
 
 describe('SelectBuilder', () => {
 
+  it('from()', () => {
+    let query = "SELECT ?s { ?s ?p ?o }";
+    let expected = SelectBuilder.fromString(query).build();
+    let actual = SelectBuilder.fromQuery(expected).build();
+
+    expect(actual).to.deep.equal(expected);
+  });
+
   it('inherited bgpTriple()', () => {
     let query = "SELECT ?s { ?s ?p ?o }";
     let expected = "SELECT ?s { ?s ?p ?o . ?s ?x \"y\" }";

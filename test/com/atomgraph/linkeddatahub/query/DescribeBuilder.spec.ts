@@ -23,6 +23,14 @@ describe('DescribeBuilder', () => {
     expect(actual.toString()).to.equal(DescribeBuilder.fromString("DESCRIBE * { SELECT * { ?a ?b ?c } }").build().toString());
   });
 
+  it('from()', () => {
+    let query = "DESCRIBE ?s { ?s ?p ?o }";
+    let expected = DescribeBuilder.fromString(query).build();
+    let actual = DescribeBuilder.fromQuery(expected).build();
+
+    expect(actual).to.deep.equal(expected);
+  });
+
   it('variablesAll()', () => {
     let query = "DESCRIBE ?x { ?x ?y ?z }";
     let expected = "DESCRIBE * { ?x ?y ?z }";

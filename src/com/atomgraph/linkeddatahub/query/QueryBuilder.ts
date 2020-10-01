@@ -13,6 +13,11 @@ export class QueryBuilder
         if (!this.query.prefixes) this.query.prefixes = {};
     }
 
+    public static fromQuery(query: Query): QueryBuilder
+    {
+        return new QueryBuilder(query);
+    }
+
     public static fromString(queryString: string, prefixes?: { [prefix: string]: string; } | undefined, baseIRI?: string | undefined): QueryBuilder
     {
         let query = new Parser(prefixes, baseIRI).parse(queryString);

@@ -17,6 +17,11 @@ export class DescribeBuilder extends QueryBuilder
         return new DescribeBuilder(<DescribeQuery>query);
     }
 
+    public static fromQuery(query: DescribeQuery): DescribeBuilder
+    {
+        return new DescribeBuilder(query);
+    }
+
     public static new(): DescribeBuilder
     {
         return new DescribeBuilder({

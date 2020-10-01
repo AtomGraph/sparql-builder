@@ -17,6 +17,11 @@ export class SelectBuilder extends QueryBuilder
         return new SelectBuilder(<SelectQuery>query);
     }
 
+    public static fromQuery(query: SelectQuery): SelectBuilder
+    {
+        return new SelectBuilder(query);
+    }
+
     public variablesAll(): SelectBuilder
     {
         this.getQuery().variables = [ "*" ];
