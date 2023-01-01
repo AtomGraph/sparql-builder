@@ -34,11 +34,11 @@
     "chai": "4.1.x",
     "mocha": "4.1.x",
     "sparqljs": "^2.1.0",
-    "ts-loader": "^5.4.5",
+    "ts-loader": "^9.4.2",
     "ts-node": "^8.3.0",
     "typescript": "^3.5.3",
-    "webpack": "^4.36.1",
-    "webpack-cli": "^3.3.6"
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
   },
   "description": "SPARQL query builder written in TypeScript. Can be used from both TypeScript and JavaScript, although type-safety is lost in JavaScript.",
   "homepage": "https://github.com/AtomGraph/sparql-builder",
